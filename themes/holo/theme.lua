@@ -17,16 +17,17 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/themes/holo/icons"
-theme.wallpaper                                 = os.getenv("HOME") .. "/.config/awesome/themes/holo/wall.png"
+theme.wallpaper                                 = os.getenv("HOME") .. "/.config/wallpapers/forest.jpg"
 theme.font                                      = "Roboto Bold 10"
 theme.taglist_font                              = "Roboto Condensed Regular 8"
 theme.fg_normal                                 = "#FFFFFF"
-theme.fg_focus                                  = "#0099CC"
+theme.fg_focus                                  = "#2d2f30"
+-- theme.fg_focus                                  = "#0099CC"
 theme.bg_focus                                  = "#303030"
 theme.bg_normal                                 = "#242424"
 theme.fg_urgent                                 = "#CC9393"
 theme.bg_urgent                                 = "#006B8E"
-theme.border_width                              = dpi(3)
+theme.border_width                              = dpi(1)
 theme.border_normal                             = "#252525"
 theme.border_focus                              = "#0099CC"
 theme.taglist_fg_focus                          = "#FFFFFF"
@@ -340,19 +341,19 @@ function theme.at_screen_connect(s)
             wibox.widget.systray(),
             --theme.mail.widget,
             --bat.widget,
-            spr_right,
-            musicwidget,
-            bar,
-            prev_icon,
-            next_icon,
-            stop_icon,
-            play_pause_icon,
-            bar,
-            mpd_icon,
-            bar,
-            spr_very_small,
-            volumewidget,
-            spr_left,
+            -- spr_right,
+            -- musicwidget,
+            -- bar,
+            -- prev_icon,
+            -- next_icon,
+            -- stop_icon,
+            -- play_pause_icon,
+            -- bar,
+            -- mpd_icon,
+            -- bar,
+            -- spr_very_small,
+            -- volumewidget,
+            -- spr_left,
         },
     }
 
