@@ -21,7 +21,8 @@ theme.wallpaper                                 = os.getenv("HOME") .. "/.config
 theme.font                                      = "Roboto Bold 10"
 theme.taglist_font                              = "Roboto Condensed Regular 8"
 theme.fg_normal                                 = "#FFFFFF"
-theme.fg_focus                                  = "#2d2f30"
+theme.fg_focus                                  = "#0099CC"
+theme.bg_borderwibox                            = "#2d2f30"
 theme.bg_focus                                  = "#303030"
 theme.bg_normal                                 = "#242424"
 theme.fg_urgent                                 = "#CC9393"
@@ -351,7 +352,7 @@ function theme.at_screen_connect(s)
 
     -- Create the bottom wibox
     s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, border_width = dpi(0), height = dpi(32) })
-    s.borderwibox = awful.wibar({ position = "bottom", screen = s, height = dpi(1), bg = theme.fg_focus, x = dpi(0), y = dpi(33)})
+    s.borderwibox = awful.wibar({ position = "bottom", screen = s, height = dpi(1), bg = theme.bg_borderwibox, x = dpi(0), y = dpi(33)})
 
     -- Add widgets to the bottom wibox
     s.mybottomwibox:setup {
