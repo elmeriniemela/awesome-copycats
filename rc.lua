@@ -462,6 +462,9 @@ globalkeys = my_table.join(
             beautiful.volume.update()
         end,
         {description = "toggle mute", group = "hotkeys"}),
+
+    awful.key({ }, "XF86ScreenSaver", function () awful.spawn.with_shell("bootstrap-linux monitor") end,
+        {description = "reconfigure monitors", group = "hotkeys"}),
     -- awful.key({ altkey, "Control" }, "m",
     --     function ()
     --         os.execute(string.format("amixer -q set %s 100%%", beautiful.volume.channel))
