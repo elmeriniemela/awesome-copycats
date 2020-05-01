@@ -327,8 +327,7 @@ globalkeys = my_table.join(
             if client.focus then client.focus:raise() end
         end,
         {description = "focus right", group = "client"}),
-    awful.key({ modkey,           }, "w", function () awful.util.mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -467,8 +466,14 @@ globalkeys = my_table.join(
         end,
         {description = "toggle mute", group = "hotkeys"}),
 
-    awful.key({ }, "XF86ScreenSaver", function () awful.spawn.with_shell("bootstrap-linux monitor") end,
+    awful.key({ }, "XF86ScreenSaver", function () awful.spawn.with_shell("arandr") end,
         {description = "reconfigure monitors", group = "hotkeys"}),
+
+    awful.key({ }, "XF86Display", function () awful.spawn.with_shell("arandr") end,
+        {description = "reconfigure monitors", group = "hotkeys"}),
+
+    awful.key({ modkey, }, "w", function () awful.spawn.with_shell("bootstrap-linux monitor") end,
+              {description = "autoconfigure monitors", group = "hotkeys"}),
     -- awful.key({ altkey, "Control" }, "m",
     --     function ()
     --         os.execute(string.format("amixer -q set %s 100%%", beautiful.volume.channel))
