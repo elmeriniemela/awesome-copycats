@@ -92,7 +92,11 @@ theme.titlebar_maximized_button_normal_inactive = theme.default_dir.."/titlebar/
 theme.titlebar_maximized_button_focus_inactive  = theme.default_dir.."/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_active   = theme.default_dir.."/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active    = theme.default_dir.."/titlebar/maximized_focus_active.png"
-
+theme.hotkeys_group_margin                      = dpi(20)
+theme.hotkeys_font                              = "Roboto Bold 18"
+theme.hotkeys_description_font                  = "Roboto Bold 14"
+theme.hotkeys_border_width                      = dpi(1)
+theme.hotkeys_modifiers_fg                      = "#0099CC"
 
 local markup = lain.util.markup
 local blue   = "#80CCE6"

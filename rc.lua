@@ -19,7 +19,13 @@ local lain          = require("lain")
 --local menubar       = require("menubar")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
-                      require("awful.hotkeys_popup.keys")
+
+
+-- Enable hotkeys help widget for VIM and other apps
+-- when client with a matching name is opened:
+-- require("awful.hotkeys_popup.keys")
+
+
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
 local dpi           = require("beautiful.xresources").apply_dpi
 -- }}}
@@ -260,18 +266,19 @@ root.buttons(my_table.join(
 
 -- {{{ Key bindings
 globalkeys = my_table.join(
-    -- Take a screenshot
-    -- https://github.com/lcpz/dots/blob/master/bin/screenshot
-    awful.key({ altkey }, "p", function() os.execute("screenshot") end,
-              {description = "take a screenshot", group = "hotkeys"}),
 
     -- X screen locker
     awful.key({ altkey, "Control" }, "l", function () os.execute(scrlocker) end,
               {description = "lock screen", group = "hotkeys"}),
 
-    -- Hotkeys
-    awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
-              {description = "show help", group="awesome"}),
+    -- -- Hotkeys
+    -- awful.key({ modkey,           }, "s",       function() hotkeys_popup.show_help() end,
+    --           {description = "show help", group="awesome"}),
+
+    awful.key({ modkey,           }, "s",  function ()
+                hotkeys_popup.new{width = 3000, height = 1500}:show_help()
+                                 end,
+                        {description="show help", group="awesome"}),
     -- Tag browsing
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
@@ -382,16 +389,16 @@ globalkeys = my_table.join(
               {description = "decrement useless gaps", group = "tag"}),
 
     -- Dynamic tagging
-    awful.key({ modkey, "Shift" }, "n", function () lain.util.add_tag() end,
-              {description = "add new tag", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "r", function () lain.util.rename_tag() end,
-              {description = "rename tag", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "Left", function () lain.util.move_tag(-1) end,
-              {description = "move tag to the left", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "Right", function () lain.util.move_tag(1) end,
-              {description = "move tag to the right", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "d", function () lain.util.delete_tag() end,
-              {description = "delete tag", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "n", function () lain.util.add_tag() end,
+    --           {description = "add new tag", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "r", function () lain.util.rename_tag() end,
+    --           {description = "rename tag", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "Left", function () lain.util.move_tag(-1) end,
+    --           {description = "move tag to the left", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "Right", function () lain.util.move_tag(1) end,
+    --           {description = "move tag to the right", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "d", function () lain.util.delete_tag() end,
+    --           {description = "delete tag", group = "tag"}),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
@@ -654,9 +661,9 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = true } },
 
-    -- Set Firefox to always map on the first tag on screen 1.
-    { rule = { class = "Firefox" },
-      properties = { screen = 1, tag = awful.util.tagnames[1] } },
+    -- -- Set Firefox to always map on the first tag on screen 1.
+    -- { rule = { class = "Firefox" },
+    --   properties = { screen = 1, tag = awful.util.tagnames[1] } },
 }
 -- }}}
 
