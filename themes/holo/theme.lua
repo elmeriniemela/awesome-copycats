@@ -47,8 +47,6 @@ theme.spr_bottom_right                          = theme.icon_dir .. "/spr_bottom
 theme.spr_left                                  = theme.icon_dir .. "/spr_left.png"
 theme.bar                                       = theme.icon_dir .. "/bar.png"
 theme.bottom_bar                                = theme.icon_dir .. "/bottom_bar.png"
-theme.mpdl                                      = theme.icon_dir .. "/mpd.png"
-theme.mpd_on                                    = theme.icon_dir .. "/mpd_on.png"
 theme.prev                                      = theme.icon_dir .. "/prev.png"
 theme.nex                                       = theme.icon_dir .. "/next.png"
 theme.stop                                      = theme.icon_dir .. "/stop.png"
@@ -95,7 +93,6 @@ theme.titlebar_maximized_button_focus_inactive  = theme.default_dir.."/titlebar/
 theme.titlebar_maximized_button_normal_active   = theme.default_dir.."/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active    = theme.default_dir.."/titlebar/maximized_focus_active.png"
 
-theme.musicplr = string.format("%s -e ncmpcpp", awful.util.terminal)
 
 local markup = lain.util.markup
 local blue   = "#80CCE6"
@@ -145,61 +142,6 @@ theme.mail = lain.widget.imap({
 })
 --]]
 
--- MPD
-local mpd_icon = awful.widget.launcher({ image = theme.mpdl, command = theme.musicplr })
-local prev_icon = wibox.widget.imagebox(theme.prev)
-local next_icon = wibox.widget.imagebox(theme.nex)
-local stop_icon = wibox.widget.imagebox(theme.stop)
-local pause_icon = wibox.widget.imagebox(theme.pause)
-local play_pause_icon = wibox.widget.imagebox(theme.play)
-theme.mpd = lain.widget.mpd({
-    settings = function ()
-        if mpd_now.state == "play" then
-            mpd_now.artist = mpd_now.artist:upper():gsub("&.-;", string.lower)
-            mpd_now.title = mpd_now.title:upper():gsub("&.-;", string.lower)
-            widget:set_markup(markup.font("Roboto 4", " ")
-                              .. markup.font(theme.taglist_font,
-                              " " .. mpd_now.artist
-                              .. " - " ..
-                              mpd_now.title .. "  ") .. markup.font("Roboto 5", " "))
-            play_pause_icon:set_image(theme.pause)
-        elseif mpd_now.state == "pause" then
-            widget:set_markup(markup.font("Roboto 4", " ") ..
-                              markup.font(theme.taglist_font, " MPD PAUSED  ") ..
-                              markup.font("Roboto 5", " "))
-            play_pause_icon:set_image(theme.play)
-        else
-            widget:set_markup("")
-            play_pause_icon:set_image(theme.play)
-        end
-    end
-})
-local musicbg = wibox.container.background(theme.mpd.widget, theme.bg_focus, gears.shape.rectangle)
-local musicwidget = wibox.container.margin(musicbg, dpi(0), dpi(0), dpi(5), dpi(5))
-
-musicwidget:buttons(my_table.join(awful.button({ }, 1,
-function () awful.spawn(theme.musicplr) end)))
-prev_icon:buttons(my_table.join(awful.button({}, 1,
-function ()
-    os.execute("mpc prev")
-    theme.mpd.update()
-end)))
-next_icon:buttons(my_table.join(awful.button({}, 1,
-function ()
-    os.execute("mpc next")
-    theme.mpd.update()
-end)))
-stop_icon:buttons(my_table.join(awful.button({}, 1,
-function ()
-    play_pause_icon:set_image(theme.play)
-    os.execute("mpc stop")
-    theme.mpd.update()
-end)))
-play_pause_icon:buttons(my_table.join(awful.button({}, 1,
-function ()
-    os.execute("mpc toggle")
-    theme.mpd.update()
-end)))
 
 -- Battery
 local bat = lain.widget.bat({
