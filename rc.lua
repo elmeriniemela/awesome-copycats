@@ -56,6 +56,17 @@ end
 
 -- {{{ Autostart windowless processes
 
+local function run_or_raise(cmd, class)
+    local matcher = function (c)
+        local client_class = c.class:lower()
+        if client_class:find(class) then
+            return true
+        end
+        return false
+    end
+    awful.client.run_or_raise(cmd, matcher)
+end
+
 -- This function will run once every time Awesome is started
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
@@ -103,7 +114,6 @@ local terminal     = "konsole"
 local vi_focus     = false -- vi-like client focus - https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true -- cycle trough all previous client or just the first -- https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "vim"
-local gui_editor   = os.getenv("GUI_EDITOR") or "code"
 local browser      = os.getenv("BROWSER") or "firefox"
 local filemanager  = os.getenv("FILEMANAGER") or "pcmanfm"
 local scrlocker    = "slock"
@@ -275,7 +285,7 @@ globalkeys = my_table.join(
     -- awful.key({ modkey,           }, "s",       function() hotkeys_popup.show_help() end,
     --           {description = "show help", group="awesome"}),
 
-    awful.key({ modkey,           }, "s",  function ()
+    awful.key({ }, "F1",  function ()
                 hotkeys_popup.new{width = 3000, height = 1500}:show_help()
                                  end,
                         {description="show help", group="awesome"}),
@@ -401,8 +411,7 @@ globalkeys = my_table.join(
     --           {description = "delete tag", group = "tag"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
-              {description = "open a terminal", group = "launcher"}),
+
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -445,8 +454,7 @@ globalkeys = my_table.join(
               {description = "show calendar", group = "widgets"}),
     awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
               {description = "show filesystem", group = "widgets"}),
-    awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
-              {description = "show weather", group = "widgets"}),
+
 
     -- Brightness
     awful.key({ }, "XF86MonBrightnessUp", function () os.execute("xbacklight -inc 10") end,
@@ -480,17 +488,31 @@ globalkeys = my_table.join(
     awful.key({ }, "XF86Display", function () awful.spawn.with_shell("arandr") end,
         {description = "reconfigure monitors", group = "hotkeys"}),
 
-    awful.key({ modkey, }, "w", function () awful.spawn.with_shell("bootstrap-linux monitor") end,
+    awful.key({ altkey, }, "w", function () awful.spawn.with_shell("bootstrap-linux monitor") end,
               {description = "autoconfigure monitors", group = "hotkeys"}),
 
     -- User programs
-    awful.key({ modkey }, "q", function () awful.spawn(browser) end,
-              {description = "run browser", group = "launcher"}),
-    awful.key({ modkey }, "a", function () awful.spawn(gui_editor) end,
-              {description = "run gui editor", group = "launcher"}),
+    awful.key({ modkey, }, "Return", function () run_or_raise(terminal, terminal) end,
+              {description = "open a terminal", group = "launcher"}),
 
-    awful.key({ modkey }, "e", function () awful.spawn(filemanager) end,
-              {description = "run filemanager", group = "launcher"}),
+    awful.key({ modkey }, "q", function () run_or_raise(browser, browser) end,
+              {description = "open browser", group = "launcher"}),
+
+    awful.key({ modkey }, "e", function () run_or_raise(filemanager, filemanager) end,
+              {description = "open filemanager", group = "launcher"}),
+
+    awful.key({ modkey }, "t", function () run_or_raise("thunderbird", "thunderbird") end,
+        {description = "open thunderbird", group = "launcher"}),
+
+    awful.key({ modkey }, "w", function () run_or_raise("whatsapp-nativefier-dark", "whatsapp") end,
+        {description = "open whatsapp", group = "launcher"}),
+
+    awful.key({ modkey, }, "s", function () run_or_raise("slack", "slack") end,
+        {description = "open slack", group = "launcher"}),
+
+    awful.key({ modkey, }, "c", function () run_or_raise("code", "code") end,
+        {description = "open code", group = "launcher"}),
+
 
     -- Default
     --[[ Menubar
@@ -547,8 +569,7 @@ clientkeys = my_table.join(
               {description = "move to master", group = "client"}),
     awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
               {description = "move to screen", group = "client"}),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
-              {description = "toggle keep on top", group = "client"}),
+
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
@@ -649,11 +670,13 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      raise = true,
+                     switch_to_tags=true,
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-                     size_hints_honor = false
+                     size_hints_honor = false,
+                     tag = "WORK" -- Default workspace for new windows
      }
     },
 
@@ -661,9 +684,26 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = true } },
 
-    -- -- Set Firefox to always map on the first tag on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = awful.util.tagnames[1] } },
+    -- -- find class with 'xprop WM_CLASS'
+    { rule = { class = "Thunderbird" },
+      properties = { tag = "CHAT" } },
+
+    { rule = { class = "Slack" },
+      properties = { screen = 2, tag = "CHAT" } },
+
+    { rule = { class = "whatsapp-nativefier-d52542" },
+      properties = { screen = 2, tag = "CHAT" } },
+
+    { rule = { class = "code-oss" },
+      properties = { screen = 2, tag = "WORK" } },
+
+    { rule = { class = "firefox" },
+      properties = {tag = "WORK" } },
+
+    { rule = { class = "konsole" },
+      properties = {tag = "WORK" } },
+
+
 }
 -- }}}
 
