@@ -667,13 +667,13 @@ awful.rules.rules = {
       properties = { tag = "CHAT" } },
 
     { rule = { class = "Slack" },
-      properties = { screen = 2, tag = "CHAT" } },
+      properties = { tag = "CHAT" } },
 
     { rule = { class = "whatsapp-nativefier-d52542" },
-      properties = { screen = 2, tag = "CHAT" } },
+      properties = { tag = "CHAT" } },
 
     { rule = { class = "code-oss" },
-      properties = { screen = 2, tag = "WORK" } },
+      properties = { tag = "WORK" } },
 
     { rule = { class = "firefox" },
       properties = {tag = "WORK" } },
