@@ -25,7 +25,7 @@ Installation
 
     $ git clone --recursive https://github.com/elmeriniemela/awesome-copycats.git ~/.config/awesome-copycats
     $ ln -s ~/.config/awesome-copycats ~/.config/awesome
-    $ sed -i '/HandlePowerKey/s/.*/HandlePowerKey=ignore/g' /etc/systemd/logind.conf
+    $ sudo sed -i '/HandlePowerKey/s/.*/HandlePowerKey=ignore/g' /etc/systemd/logind.conf
     $ sudo systemctl restart systemd-logind
 
 
