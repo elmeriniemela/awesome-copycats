@@ -15,7 +15,7 @@ Gallery
 
 **Holo**
 
-.. image:: http://dotshare.it/public/images/uploads/651.jpg
+.. image:: preview.png
 
 
 Installation
