@@ -114,7 +114,7 @@ exit_screen =
   }
 )
 
-exit_screen.bg = beautiful.exit_screen_bg or '#AD1457'
+exit_screen.bg = beautiful.exit_screen_bg or '#363945'
 exit_screen.fg = beautiful.exit_screen_fg or '#FEFEFE'
 
 local exit_screen_grabber
