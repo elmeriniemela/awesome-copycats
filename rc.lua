@@ -21,6 +21,9 @@ local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
 
+require('exit.exit-screen')
+
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 -- require("awful.hotkeys_popup.keys")
@@ -461,6 +464,9 @@ globalkeys = my_table.join(
               {description = "+10%", group = "hotkeys"}),
     awful.key({ }, "XF86MonBrightnessDown", function () os.execute("xbacklight -dec 10") end,
               {description = "-10%", group = "hotkeys"}),
+
+    awful.key({}, 'XF86PowerOff', function() _G.exit_screen_show() end,
+            {description = 'show exitscreen', group = 'hotkeys'}),
 
     -- ALSA volume control
     awful.key({ }, "XF86AudioRaiseVolume",
