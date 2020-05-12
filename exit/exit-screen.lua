@@ -39,14 +39,14 @@ end
 
 function suspend_command()
   exit_screen_hide()
-  awful.spawn.with_shell('slock & systemctl suspend')
+  awful.spawn.with_shell('light-locker-command -l & systemctl suspend')
 end
 function exit_command()
   _G.awesome.quit()
 end
 function lock_command()
   exit_screen_hide()
-  awful.spawn.with_shell('sleep 1 && slock')
+  awful.spawn.with_shell('sleep 1 && light-locker-command -l')
 end
 function poweroff_command()
   awful.spawn.with_shell('poweroff')

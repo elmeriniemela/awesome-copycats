@@ -119,7 +119,6 @@ local cycle_prev   = true -- cycle trough all previous client or just the first 
 local editor       = os.getenv("EDITOR") or "vim"
 local browser      = os.getenv("BROWSER") or "firefox"
 local filemanager  = os.getenv("FILEMANAGER") or "pcmanfm"
-local scrlocker    = "slock"
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "WORK", "CHAT", "OTHER", }
@@ -270,18 +269,18 @@ awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) 
 -- }}}
 
 -- {{{ Mouse bindings
-root.buttons(my_table.join(
-    awful.button({ }, 3, function () awful.util.mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
-))
+-- root.buttons(my_table.join(
+--     awful.button({ }, 3, function () awful.util.mymainmenu:toggle() end),
+--     awful.button({ }, 4, awful.tag.viewnext),
+--     awful.button({ }, 5, awful.tag.viewprev)
+-- ))
 -- }}}
 
 -- {{{ Key bindings
 globalkeys = my_table.join(
 
     -- X screen locker
-    awful.key({ altkey, "Control" }, "l", function () os.execute(scrlocker) end,
+    awful.key({ altkey, "Control" }, "l", function () os.execute("light-locker-command -l") end,
               {description = "lock screen", group = "hotkeys"}),
 
     -- -- Hotkeys
