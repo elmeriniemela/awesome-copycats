@@ -5,7 +5,7 @@
 
 --]]
 
--- { {{ Required libraries
+-- Required libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
 
@@ -31,9 +31,9 @@ require("exit.exit-screen")
 
 local my_table      = awful.util.table or gears.table -- 4.{ 0,1 } compatibility
 local dpi           = require("beautiful.xresources").apply_dpi
--- } }}
 
--- { {{ Error handling
+
+-- Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -55,9 +55,9 @@ do
         in_error = false
     end)
 end
--- } }}
 
--- { {{ Autostart windowless processes
+
+-- Autostart windowless processes
 
 local function run_or_raise(cmd, class)
     local matcher = function (c)
@@ -93,9 +93,9 @@ awful.spawn.with_shell(
 )
 --]]
 
--- } }}
 
--- { {{ Variable definitions
+
+-- Variable definitions
 
 local themes = {
     "blackburn",       -- 1
@@ -212,9 +212,9 @@ lain.layout.cascade.tile.ncol          = 2
 
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
--- } }}
 
--- { {{ Menu
+
+-- Menu
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
     { "manual", terminal .. " -e man awesome" },
@@ -237,9 +237,9 @@ awful.util.mymainmenu = freedesktop.menu.build({
 -- awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)
 
 --menubar.utils.terminal = terminal -- Set the Menubar terminal for applications that require it
--- } }}
 
--- { {{ Screen
+
+-- Screen
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", function(s)
     -- Wallpaper
@@ -268,17 +268,17 @@ end)
 
 -- Create a wibox for each screen and add it
 awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
--- } }}
 
--- { {{ Mouse bindings
+
+-- Mouse bindings
 -- root.buttons(my_table.join(
 --     awful.button({ }, 3, function () awful.util.mymainmenu:toggle() end),
 --     awful.button({ }, 4, awful.tag.viewnext),
 --     awful.button({ }, 5, awful.tag.viewprev)
 -- ))
--- } }}
 
--- { {{ Key bindings
+
+-- Key bindings
 globalkeys = my_table.join(
 
     -- X screen locker
@@ -920,9 +920,9 @@ awful.rules.rules = {
 
 
 }
--- } }}
 
--- { {{ Signals
+
+-- Signals
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
