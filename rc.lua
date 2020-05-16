@@ -634,22 +634,26 @@ globalkeys = my_table.join(
 
     awful.key({ }, "XF86ScreenSaver",
         function ()
-            awful.spawn.with_shell("arandr")
+            run_or_raise("arandr", "arandr")
         end,
         {description = "reconfigure monitors", group = "hotkeys"}
     ),
 
     awful.key({ }, "XF86Display",
         function ()
-            awful.spawn.with_shell("arandr")
+            run_or_raise("arandr", "arandr")
         end,
         {description = "reconfigure monitors", group = "hotkeys"}
     ),
 
     awful.key({ altkey, }, "w",
         function ()
-            awful.spawn.with_shell("bootstrap-linux monitor")
-            awesome.restart()
+            awful.spawn.easy_async(
+                "bootstrap-linux monitor",
+                function (stdout, stderr, exitreason, exitcode)
+                    awesome.restart()
+                end
+            )
         end,
         {description = "autoconfigure monitors", group = "hotkeys"}
     ),
@@ -800,48 +804,58 @@ for i = 1, 9 do
     globalkeys = my_table.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
-                  function ()
-                        local screen = awful.screen.focused()
-                        local tag = screen.tags[i]
-                        if tag then
-                           tag:view_only()
-                        end
-                  end,
-                  descr_view),
+            function ()
+                local screen = awful.screen.focused()
+                local tag = screen.tags[i]
+                if tag then
+                    tag:view_only()
+                end
+            end,
+            descr_view
+        ),
+
         -- Toggle tag display.
         awful.key({ modkey, "Control" }, "#" .. i + 9,
-                  function ()
-                      local screen = awful.screen.focused()
-                      local tag = screen.tags[i]
-                      if tag then
-                         awful.tag.viewtoggle(tag)
-                      end
-                  end,
-                  descr_toggle),
+            function ()
+                local screen = awful.screen.focused()
+                local tag = screen.tags[i]
+                if tag then
+                    awful.tag.viewtoggle(tag)
+                end
+            end,
+            descr_toggle
+        ),
+
         -- Move client to tag.
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
-                  function ()
-                      if client.focus then
-                          local tag = client.focus.screen.tags[i]
-                          if tag then
-                              client.focus:move_to_tag(tag)
-                          end
-                     end
-                  end,
-                  descr_move),
+            function ()
+                if client.focus then
+                    local tag = client.focus.screen.tags[i]
+                    if tag then
+                        client.focus:move_to_tag(tag)
+                    end
+                end
+            end,
+            descr_move
+        ),
+
         -- Toggle tag on focused client.
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
-                  function ()
-                      if client.focus then
-                          local tag = client.focus.screen.tags[i]
-                          if tag then
-                              client.focus:toggle_tag(tag)
-                          end
-                      end
-                  end,
-                  descr_toggle_focus)
+            function ()
+                if client.focus then
+                    local tag = client.focus.screen.tags[i]
+                    if tag then
+                        client.focus:toggle_tag(tag)
+                    end
+                end
+            end,
+            descr_toggle_focus
+        )
     )
 end
+
+-- Set keys
+root.keys(globalkeys)
 
 clientbuttons = gears.table.join(
     awful.button({ }, 1, function (c)
@@ -857,8 +871,6 @@ clientbuttons = gears.table.join(
     end)
 )
 
--- Set keys
-root.keys(globalkeys)
 
 
 -- Rules to apply to new clients (through the "manage" signal).
