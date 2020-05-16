@@ -5,7 +5,7 @@
 
 --]]
 
--- {{{ Required libraries
+-- { {{ Required libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
 
@@ -29,11 +29,11 @@ require("exit.exit-screen")
 -- require("awful.hotkeys_popup.keys")
 
 
-local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
+local my_table      = awful.util.table or gears.table -- 4.{ 0,1 } compatibility
 local dpi           = require("beautiful.xresources").apply_dpi
--- }}}
+-- } }}
 
--- {{{ Error handling
+-- { {{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -55,9 +55,9 @@ do
         in_error = false
     end)
 end
--- }}}
+-- } }}
 
--- {{{ Autostart windowless processes
+-- { {{ Autostart windowless processes
 
 local function run_or_raise(cmd, class)
     local matcher = function (c)
@@ -93,9 +93,9 @@ awful.spawn.with_shell(
 )
 --]]
 
--- }}}
+-- } }}
 
--- {{{ Variable definitions
+-- { {{ Variable definitions
 
 local themes = {
     "blackburn",       -- 1
@@ -131,20 +131,20 @@ awful.layout.layouts = {
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.magnifier,
-    --awful.layout.suit.corner.nw,
-    --awful.layout.suit.corner.ne,
-    --awful.layout.suit.corner.sw,
-    --awful.layout.suit.corner.se,
-    --lain.layout.cascade,
-    --lain.layout.cascade.tile,
-    --lain.layout.centerwork,
-    --lain.layout.centerwork.horizontal,
-    --lain.layout.termfair,
-    --lain.layout.termfair.center,
+    -- awful.layout.suit.fair,
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.corner.nw,
+    -- awful.layout.suit.corner.ne,
+    -- awful.layout.suit.corner.sw,
+    -- awful.layout.suit.corner.se,
+    -- lain.layout.cascade,
+    -- lain.layout.cascade.tile,
+    -- lain.layout.centerwork,
+    -- lain.layout.centerwork.horizontal,
+    -- lain.layout.termfair,
+    -- lain.layout.termfair.center,
 }
 
 awful.util.taglist_buttons = my_table.join(
@@ -169,7 +169,7 @@ awful.util.tasklist_buttons = my_table.join(
         if c == client.focus then
             c.minimized = true
         else
-            --c:emit_signal("request::activate", "tasklist", {raise = true})<Paste>
+            --c:emit_signal("request::activate", "tasklist", { raise = true })<Paste>
 
             -- Without this, the following
             -- :isvisible() makes no sense
@@ -192,7 +192,7 @@ awful.util.tasklist_buttons = my_table.join(
                 instance:hide()
                 instance = nil
             else
-                instance = awful.menu.clients({theme = {width = dpi(250)}})
+                instance = awful.menu.clients({ theme = { width = dpi(250) }})
             end
         end
     end),
@@ -212,9 +212,9 @@ lain.layout.cascade.tile.ncol          = 2
 
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
--- }}}
+-- } }}
 
--- {{{ Menu
+-- { {{ Menu
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
     { "manual", terminal .. " -e man awesome" },
@@ -237,9 +237,9 @@ awful.util.mymainmenu = freedesktop.menu.build({
 -- awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)
 
 --menubar.utils.terminal = terminal -- Set the Menubar terminal for applications that require it
--- }}}
+-- } }}
 
--- {{{ Screen
+-- { {{ Screen
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", function(s)
     -- Wallpaper
@@ -254,29 +254,31 @@ screen.connect_signal("property::geometry", function(s)
 end)
 
 -- No borders when rearranging only 1 non-floating or maximized client
-screen.connect_signal("arrange", function (s)
-    local only_one = #s.tiled_clients == 1
-    for _, c in pairs(s.clients) do
-        if only_one and not c.floating or c.maximized then
-            c.border_width = 0
-        else
-            c.border_width = beautiful.border_width
-        end
-    end
-end)
+-- screen.connect_signal("arrange", function (s)
+--     local only_one = #s.tiled_clients == 1
+--     for _, c in pairs(s.clients) do
+--         if only_one and not c.floating or c.maximized then
+--             c.border_width = 0
+--         else
+--             c.border_width = beautiful.border_width
+--         end
+--     end
+-- end)
+
+
 -- Create a wibox for each screen and add it
 awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
--- }}}
+-- } }}
 
--- {{{ Mouse bindings
+-- { {{ Mouse bindings
 -- root.buttons(my_table.join(
 --     awful.button({ }, 3, function () awful.util.mymainmenu:toggle() end),
 --     awful.button({ }, 4, awful.tag.viewnext),
 --     awful.button({ }, 5, awful.tag.viewprev)
 -- ))
--- }}}
+-- } }}
 
--- {{{ Key bindings
+-- { {{ Key bindings
 globalkeys = my_table.join(
 
     -- X screen locker
@@ -284,31 +286,31 @@ globalkeys = my_table.join(
         function ()
             os.execute("light-locker-command -l")
         end,
-        {description = "lock screen", group = "hotkeys"}
+        { description = "lock screen", group = "hotkeys" }
     ),
 
     -- -- Hotkeys
     awful.key({ }, "F1",
         function ()
-            hotkeys_popup.new{width = 3000, height = 1500}:show_help()
+            hotkeys_popup.new{ width = 3000, height = 1500 }:show_help()
         end,
-        {description="show help", group="awesome"}
+        { description="show help", group="awesome" }
     ),
 
     -- Tag browsing
     awful.key({ modkey, }, "Left",
         awful.tag.viewprev,
-        {description = "view previous", group = "tag"}
+        { description = "view previous", group = "tag" }
     ),
 
     awful.key({ modkey, }, "Right",
         awful.tag.viewnext,
-        {description = "view next", group = "tag"}
+        { description = "view next", group = "tag" }
     ),
 
     awful.key({ modkey, }, "Escape",
         awful.tag.history.restore,
-        {description = "go back", group = "tag"}
+        { description = "go back", group = "tag" }
     ),
 
     -- Non-empty tag browsing
@@ -316,21 +318,21 @@ globalkeys = my_table.join(
         function ()
             lain.util.tag_view_nonempty(-1)
         end,
-        {description = "view  previous nonempty", group = "tag"}
+        { description = "view  previous nonempty", group = "tag" }
     ),
 
     awful.key({ altkey }, "Right",
         function ()
             lain.util.tag_view_nonempty(1)
         end,
-        {description = "view  previous nonempty", group = "tag"}
+        { description = "view  previous nonempty", group = "tag" }
     ),
 
-    awful.key({}, "Print",
+    awful.key({ }, "Print",
         function()
             awful.util.spawn_with_shell("flameshot gui")
         end,
-        {description = "print screen", group = "hotkeys"}
+        { description = "print screen", group = "hotkeys" }
     ),
 
     -- Default client focus
@@ -338,14 +340,14 @@ globalkeys = my_table.join(
         function ()
             awful.client.focus.byidx( 1)
         end,
-        {description = "focus next by index", group = "client"}
+        { description = "focus next by index", group = "client" }
     ),
 
     awful.key({ altkey, }, "k",
         function ()
             awful.client.focus.byidx(-1)
         end,
-        {description = "focus previous by index", group = "client"}
+        { description = "focus previous by index", group = "client" }
     ),
 
     -- By direction client focus
@@ -354,7 +356,7 @@ globalkeys = my_table.join(
             awful.client.focus.global_bydirection("down")
             if client.focus then client.focus:raise() end
         end,
-        {description = "focus down", group = "client"}
+        { description = "focus down", group = "client" }
     ),
 
     awful.key({ modkey }, "k",
@@ -362,7 +364,7 @@ globalkeys = my_table.join(
             awful.client.focus.global_bydirection("up")
             if client.focus then client.focus:raise() end
         end,
-        {description = "focus up", group = "client"}
+        { description = "focus up", group = "client" }
     ),
 
     awful.key({ modkey }, "h",
@@ -370,7 +372,7 @@ globalkeys = my_table.join(
             awful.client.focus.global_bydirection("left")
             if client.focus then client.focus:raise() end
         end,
-        {description = "focus left", group = "client"}
+        { description = "focus left", group = "client" }
     ),
 
     awful.key({ modkey }, "l",
@@ -378,7 +380,7 @@ globalkeys = my_table.join(
             awful.client.focus.global_bydirection("right")
             if client.focus then client.focus:raise() end
         end,
-        {description = "focus right", group = "client"}
+        { description = "focus right", group = "client" }
     ),
 
 
@@ -394,26 +396,26 @@ globalkeys = my_table.join(
         function ()
             awful.client.swap.byidx( -1)
         end,
-        { description = "swap with previous client by index", group = "client"}
+        { description = "swap with previous client by index", group = "client" }
     ),
 
     awful.key({ modkey, "Control" }, "j",
         function ()
             awful.screen.focus_relative(1)
         end,
-        {description = "focus the next screen", group = "screen"}
+        { description = "focus the next screen", group = "screen" }
     ),
 
     awful.key({ modkey, "Control" }, "k",
         function ()
             awful.screen.focus_relative(-1)
         end,
-        {description = "focus the previous screen", group = "screen"}
+        { description = "focus the previous screen", group = "screen" }
     ),
 
     awful.key({ modkey, }, "u",
         awful.client.urgent.jumpto,
-        {description = "jump to urgent client", group = "client"}
+        { description = "jump to urgent client", group = "client" }
     ),
 
     awful.key({ modkey, }, "Tab",
@@ -427,7 +429,7 @@ globalkeys = my_table.join(
                 client.focus:raise()
             end
         end,
-        {description = "cycle with previous/go back", group = "client"}
+        { description = "cycle with previous/go back", group = "client" }
     ),
 
     awful.key({ modkey, "Shift" }, "Tab",
@@ -439,7 +441,7 @@ globalkeys = my_table.join(
                 end
             end
         end,
-        {description = "go forth", group = "client"}
+        { description = "go forth", group = "client" }
     ),
 
     -- Show/Hide Wibox
@@ -452,7 +454,7 @@ globalkeys = my_table.join(
                 end
             end
         end,
-        {description = "toggle wibox", group = "awesome"}
+        { description = "toggle wibox", group = "awesome" }
     ),
 
     -- On the fly useless gaps change
@@ -460,82 +462,82 @@ globalkeys = my_table.join(
         function ()
             lain.util.useless_gaps_resize(1)
         end,
-        {description = "increment useless gaps", group = "tag"}
+        { description = "increment useless gaps", group = "tag" }
     ),
 
     awful.key({ altkey, "Control" }, "-",
         function ()
             lain.util.useless_gaps_resize(-1)
         end,
-        {description = "decrement useless gaps", group = "tag"}
+        { description = "decrement useless gaps", group = "tag" }
     ),
 
 
     -- Standard program
     awful.key({ modkey, "Control" }, "r",
         awesome.restart,
-        {description = "reload awesome", group = "awesome"}
+        { description = "reload awesome", group = "awesome" }
     ),
 
     awful.key({ modkey, "Shift" }, "q",
         awesome.quit,
-        {description = "quit awesome", group = "awesome"}
+        { description = "quit awesome", group = "awesome" }
     ),
 
     awful.key({ altkey, "Shift" }, "l",
         function ()
             awful.tag.incmwfact( 0.05)
         end,
-        {description = "increase master width factor", group = "layout"}
+        { description = "increase master width factor", group = "layout" }
     ),
 
     awful.key({ altkey, "Shift" }, "h",
         function ()
             awful.tag.incmwfact(-0.05)
         end,
-        {description = "decrease master width factor", group = "layout"}
+        { description = "decrease master width factor", group = "layout" }
     ),
 
     awful.key({ modkey, "Shift" }, "h",
         function ()
             awful.tag.incnmaster(1, nil, true)
         end,
-        {description = "increase the number of master clients", group = "layout"}
+        { description = "increase the number of master clients", group = "layout" }
     ),
 
     awful.key({ modkey, "Shift" }, "l",
         function ()
             awful.tag.incnmaster(-1, nil, true)
         end,
-        {description = "decrease the number of master clients", group = "layout"}
+        { description = "decrease the number of master clients", group = "layout" }
     ),
 
     awful.key({ modkey, "Control" }, "h",
         function ()
             awful.tag.incncol( 1, nil, true)
         end,
-        {description = "increase the number of columns", group = "layout"}
+        { description = "increase the number of columns", group = "layout" }
     ),
 
     awful.key({ modkey, "Control" }, "l",
         function ()
             awful.tag.incncol(-1, nil, true)
         end,
-        {description = "decrease the number of columns", group = "layout"}
+        { description = "decrease the number of columns", group = "layout" }
     ),
 
     awful.key({ modkey, }, "space",
         function ()
             awful.layout.inc(1)
         end,
-        {description = "select next", group = "layout"}
+        { description = "select next", group = "layout" }
     ),
 
     awful.key({ modkey, "Shift" }, "space",
         function ()
             awful.layout.inc(-1)
         end,
-        {description = "select previous", group = "layout"}
+        { description = "select previous", group = "layout" }
     ),
 
     awful.key({ modkey, "Control" }, "n",
@@ -547,7 +549,7 @@ globalkeys = my_table.join(
                 c:raise()
             end
         end,
-        {description = "restore minimized", group = "client"}
+        { description = "restore minimized", group = "client" }
     ),
 
     -- Dropdown application
@@ -555,7 +557,7 @@ globalkeys = my_table.join(
         function ()
             awful.screen.focused().quake:toggle()
         end,
-        {description = "dropdown application", group = "launcher"}
+        { description = "dropdown application", group = "launcher" }
     ),
 
     -- Widgets popups
@@ -565,7 +567,7 @@ globalkeys = my_table.join(
                 beautiful.cal.show(7)
             end
         end,
-        {description = "show calendar", group = "widgets"}
+        { description = "show calendar", group = "widgets" }
     ),
 
     awful.key({ altkey, }, "h",
@@ -574,7 +576,7 @@ globalkeys = my_table.join(
                 beautiful.fs.show(7)
             end
         end,
-        {description = "show filesystem", group = "widgets"}
+        { description = "show filesystem", group = "widgets" }
     ),
 
 
@@ -583,28 +585,28 @@ globalkeys = my_table.join(
         function ()
             os.execute("xbacklight -inc 10")
         end,
-        {description = "+10%", group = "hotkeys"}
+        { description = "+10%", group = "hotkeys" }
     ),
 
     awful.key({ }, "XF86MonBrightnessDown",
         function ()
             os.execute("xbacklight -dec 10")
         end,
-        {description = "-10%", group = "hotkeys"}
+        { description = "-10%", group = "hotkeys" }
     ),
 
-    awful.key({}, "XF86PowerOff",
+    awful.key({ }, "XF86PowerOff",
         function()
             _G.exit_screen_show()
         end,
-        {description = "show exitscreen", group = "hotkeys"}
+        { description = "show exitscreen", group = "hotkeys" }
     ),
 
-    awful.key({}, "XF86PowerDown",
+    awful.key({ }, "XF86PowerDown",
         function()
             _G.exit_screen_show()
         end,
-        {description = "show exitscreen", group = "hotkeys"}
+        { description = "show exitscreen", group = "hotkeys" }
     ),
 
     -- ALSA volume control
@@ -613,7 +615,7 @@ globalkeys = my_table.join(
             os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
             beautiful.volume.update()
         end,
-        {description = "volume up", group = "hotkeys"}
+        { description = "volume up", group = "hotkeys" }
     ),
 
     awful.key({ }, "XF86AudioLowerVolume",
@@ -621,7 +623,7 @@ globalkeys = my_table.join(
             os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
             beautiful.volume.update()
         end,
-        {description = "volume down", group = "hotkeys"}
+        { description = "volume down", group = "hotkeys" }
     ),
 
     awful.key({ }, "XF86AudioMute",
@@ -629,21 +631,21 @@ globalkeys = my_table.join(
             os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
             beautiful.volume.update()
         end,
-        {description = "toggle mute", group = "hotkeys"}
+        { description = "toggle mute", group = "hotkeys" }
     ),
 
     awful.key({ }, "XF86ScreenSaver",
         function ()
             run_or_raise("arandr", "arandr")
         end,
-        {description = "reconfigure monitors", group = "hotkeys"}
+        { description = "reconfigure monitors", group = "hotkeys" }
     ),
 
     awful.key({ }, "XF86Display",
         function ()
             run_or_raise("arandr", "arandr")
         end,
-        {description = "reconfigure monitors", group = "hotkeys"}
+        { description = "reconfigure monitors", group = "hotkeys" }
     ),
 
     awful.key({ altkey, }, "w",
@@ -655,7 +657,7 @@ globalkeys = my_table.join(
                 end
             )
         end,
-        {description = "autoconfigure monitors", group = "hotkeys"}
+        { description = "autoconfigure monitors", group = "hotkeys" }
     ),
 
     -- User programs
@@ -663,49 +665,49 @@ globalkeys = my_table.join(
         function ()
             run_or_raise(terminal, terminal)
         end,
-        {description = "open a terminal", group = "launcher"}
+        { description = "open a terminal", group = "launcher" }
     ),
 
     awful.key({ modkey }, "q",
         function ()
             run_or_raise(browser, browser)
         end,
-        {description = "open browser", group = "launcher"}
+        { description = "open browser", group = "launcher" }
     ),
 
     awful.key({ modkey }, "e",
         function ()
             run_or_raise(filemanager, filemanager)
         end,
-        {description = "open filemanager", group = "launcher"}
+        { description = "open filemanager", group = "launcher" }
     ),
 
     awful.key({ modkey }, "t",
         function ()
             run_or_raise("thunderbird", "thunderbird")
         end,
-        {description = "open thunderbird", group = "launcher"}
+        { description = "open thunderbird", group = "launcher" }
     ),
 
     awful.key({ modkey }, "w",
         function ()
             run_or_raise("whatsapp-nativefier-dark", "whatsapp")
         end,
-        {description = "open whatsapp", group = "launcher"}
+        { description = "open whatsapp", group = "launcher" }
     ),
 
     awful.key({ modkey, }, "s",
         function ()
             run_or_raise("slack", "slack")
         end,
-        {description = "open slack", group = "launcher"}
+        { description = "open slack", group = "launcher" }
     ),
 
     awful.key({ modkey, }, "c",
         function ()
             run_or_raise("code", "code")
         end,
-        {description = "open code", group = "launcher"}
+        { description = "open code", group = "launcher" }
     ),
 
     -- Prompt
@@ -713,7 +715,7 @@ globalkeys = my_table.join(
         function ()
             awful.screen.focused().mypromptbox:run()
         end,
-        {description = "run prompt", group = "launcher"}
+        { description = "run prompt", group = "launcher" }
     ),
 
     awful.key({ modkey }, "x",
@@ -725,7 +727,7 @@ globalkeys = my_table.join(
                 history_path = awful.util.get_cache_dir() .. "/history_eval"
             }
         end,
-        {description = "lua execute prompt", group = "awesome"}
+        { description = "lua execute prompt", group = "awesome" }
     )
     --]]
 )
@@ -734,7 +736,7 @@ clientkeys = my_table.join(
 
     awful.key({ altkey, "Shift" }, "m",
         lain.util.magnify_client,
-        {description = "magnify client", group = "client"}
+        { description = "magnify client", group = "client" }
     ),
 
     awful.key({ modkey, }, "f",
@@ -742,33 +744,33 @@ clientkeys = my_table.join(
             c.fullscreen = not c.fullscreen
             c:raise()
         end,
-        {description = "toggle fullscreen", group = "client"}
+        { description = "toggle fullscreen", group = "client" }
     ),
 
     awful.key({ modkey, }, "d",
         function (c)
             c:kill()
         end,
-        {description = "close", group = "client"}
+        { description = "close", group = "client" }
     ),
 
     awful.key({ modkey, "Control" }, "space",
         awful.client.floating.toggle,
-        {description = "toggle floating", group = "client"}
+        { description = "toggle floating", group = "client" }
     ),
 
     awful.key({ modkey, "Control" }, "Return",
         function (c)
             c:swap(awful.client.getmaster())
         end,
-        {description = "move to master", group = "client"}
+        { description = "move to master", group = "client" }
     ),
 
     awful.key({ modkey, }, "o",
         function (c)
             c:move_to_screen()
         end,
-        {description = "move to screen", group = "client"}
+        { description = "move to screen", group = "client" }
     ),
 
     awful.key({ modkey, }, "n",
@@ -777,7 +779,7 @@ clientkeys = my_table.join(
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
         end ,
-        {description = "minimize", group = "client"}
+        { description = "minimize", group = "client" }
     ),
 
     awful.key({ modkey, }, "m",
@@ -785,7 +787,7 @@ clientkeys = my_table.join(
             c.maximized = not c.maximized
             c:raise()
         end ,
-        {description = "maximize", group = "client"}
+        { description = "maximize", group = "client" }
     )
 )
 
@@ -796,10 +798,10 @@ for i = 1, 9 do
     -- Hack to only show tags 1 and 9 in the shortcut window (mod+s)
     local descr_view, descr_toggle, descr_move, descr_toggle_focus
     if i == 1 or i == 9 then
-        descr_view = {description = "view tag #", group = "tag"}
-        descr_toggle = {description = "toggle tag #", group = "tag"}
-        descr_move = {description = "move focused client to tag #", group = "tag"}
-        descr_toggle_focus = {description = "toggle focused client on tag #", group = "tag"}
+        descr_view = { description = "view tag #", group = "tag" }
+        descr_toggle = { description = "toggle tag #", group = "tag" }
+        descr_move = { description = "move focused client to tag #", group = "tag" }
+        descr_toggle_focus = { description = "toggle focused client on tag #", group = "tag" }
     end
     globalkeys = my_table.join(globalkeys,
         -- View tag only.
@@ -859,14 +861,14 @@ root.keys(globalkeys)
 
 clientbuttons = gears.table.join(
     awful.button({ }, 1, function (c)
-        c:emit_signal("request::activate", "mouse_click", {raise = true})
+        c:emit_signal("request::activate", "mouse_click", { raise = true })
     end),
     awful.button({ modkey }, 1, function (c)
-        c:emit_signal("request::activate", "mouse_click", {raise = true})
+        c:emit_signal("request::activate", "mouse_click", { raise = true })
         awful.mouse.client.move(c)
     end),
     awful.button({ modkey }, 3, function (c)
-        c:emit_signal("request::activate", "mouse_click", {raise = true})
+        c:emit_signal("request::activate", "mouse_click", { raise = true })
         awful.mouse.client.resize(c)
     end)
 )
@@ -911,16 +913,16 @@ awful.rules.rules = {
       properties = { tag = "WORK" } },
 
     { rule = { class = "firefox" },
-      properties = {tag = "WORK" } },
+      properties = { tag = "WORK" } },
 
     { rule = { class = "konsole" },
-      properties = {tag = "WORK" } },
+      properties = { tag = "WORK" } },
 
 
 }
--- }}}
+-- } }}
 
--- {{{ Signals
+-- { {{ Signals
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
@@ -947,16 +949,16 @@ client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
     local buttons = my_table.join(
         awful.button({ }, 1, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
+            c:emit_signal("request::activate", "titlebar", { raise = true })
             awful.mouse.client.move(c)
         end),
         awful.button({ }, 3, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
+            c:emit_signal("request::activate", "titlebar", { raise = true })
             awful.mouse.client.resize(c)
         end)
     )
 
-    awful.titlebar(c, {size = dpi(20)}) : setup {
+    awful.titlebar(c, { size = dpi(20) }) : setup {
         { -- Left
             awful.titlebar.widget.iconwidget(c),
             buttons = buttons,
@@ -982,7 +984,7 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 -- client.connect_signal("mouse::enter", function(c)
---     c:emit_signal("request::activate", "mouse_enter", {raise = vi_focus})
+--     c:emit_signal("request::activate", "mouse_enter", { raise = vi_focus })
 -- end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
