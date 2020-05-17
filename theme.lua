@@ -51,6 +51,9 @@ theme.play                                      = theme.icon_dir .. "/play.png"
 theme.clock                                     = theme.icon_dir .. "/clock.png"
 theme.calendar                                  = theme.icon_dir .. "/cal.png"
 theme.cpu                                       = theme.icon_dir .. "/cpu.png"
+theme.upgrade                                   = theme.icon_dir .. "/upgrade.png"
+theme.plugged                                   = theme.icon_dir .. "/plugged.png"
+theme.battery                                   = theme.icon_dir .. "/battery.png"
 theme.net_up                                    = theme.icon_dir .. "/net_up.png"
 theme.net_down                                  = theme.icon_dir .. "/net_down.png"
 theme.layout_tile                               = theme.icon_dir .. "/tile.png"
@@ -122,16 +125,23 @@ theme.cal = lain.widget.cal({
 
 
 -- Battery
+local bat_icon = wibox.widget.imagebox(theme.battery)
+
 local bat = lain.widget.bat({
+    timeout = 5,
     settings = function()
-        bat_header = " Bat "
-        bat_p      = bat_now.perc .. " "
+        bat_p      = " " .. bat_now.perc .. "% "
         if bat_now.ac_status == 1 then
-            bat_p = bat_p .. "Plugged "
+            bat_icon.image = theme.plugged
+        else
+            bat_icon.image = theme.battery
         end
-        widget:set_markup(markup.font(theme.font, markup(blue, bat_header) .. bat_p))
-    end
+        widget:set_markup(markup.font(theme.font, bat_p))
+    end,
 })
+
+local batbg = wibox.container.background(bat.widget, theme.bg_focus, gears.shape.rectangle)
+local batwidget = wibox.container.margin(batbg, dpi(0), dpi(0), dpi(5), dpi(5))
 
 -- ALSA volume bar
 theme.volume = lain.widget.alsabar({
@@ -169,8 +179,28 @@ theme.mic.bar.margins = dpi(5)
 local micwidget = wibox.container.background(theme.mic.bar, theme.bg_focus, gears.shape.rectangle)
 micwidget = wibox.container.margin(micwidget, dpi(0), dpi(0), dpi(5), dpi(5))
 
+
+
+local upgrade_icon = wibox.widget.imagebox(theme.upgrade)
 updatetextbox = wibox.widget.textbox()
-vicious.register(updatetextbox, vicious.widgets.pkg, markup.font(theme.font, "Updates: $1"), 60, "Arch")
+local update_tooltip = awful.tooltip({
+    objects = { updatetextbox, upgrade_icon } ,
+    mode = "outside",
+    preferred_positions = "bottom",
+})
+
+vicious.register(
+    updatetextbox,
+    vicious.widgets.pkg,
+    function (widget, args)
+        lines = args[2]:gsub("&gt;", ">")
+        update_tooltip:set_text(lines)
+        return markup.font(theme.font, string.format("  %s  ", args[1]))
+    end,
+    60,
+    "Arch"
+)
+
 local updatebg = wibox.container.background(updatetextbox, theme.bg_focus, gears.shape.rectangle)
 local updatewidget = wibox.container.margin(updatebg, dpi(0), dpi(0), dpi(5), dpi(5))
 
@@ -288,8 +318,11 @@ function theme.at_screen_connect(s)
             bottom_bar,
             cpu_icon,
             cpuwidget,
+            bottom_bar,
+            upgrade_icon,
             updatewidget,
-            bat.widget,
+            bat_icon,
+            batwidget,
         },
     }
 

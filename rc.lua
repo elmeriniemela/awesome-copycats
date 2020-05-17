@@ -114,8 +114,8 @@ awful.util.tagnames = { "WORK", "CHAT", "OTHER", }
 awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.max,
+    awful.layout.suit.floating,
     -- awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.floating,
     -- awful.layout.suit.tile,
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
