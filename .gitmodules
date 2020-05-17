@@ -5,3 +5,7 @@
 [submodule "freedesktop"]
 	path = freedesktop
 	url = https://github.com/lcpz/awesome-freedesktop.git
+[submodule "vicious"]
+	path = vicious
+	url = https://github.com/vicious-widgets/vicious.git
+	branch = master

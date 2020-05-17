@@ -631,7 +631,39 @@ globalkeys = my_table.join(
             os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
             beautiful.volume.update()
         end,
-        { description = "toggle mute", group = "hotkeys" }
+        { description = "toggle audio mute", group = "hotkeys" }
+    ),
+
+    awful.key({ "Control" }, "XF86AudioRaiseVolume",
+        function ()
+            os.execute(string.format("amixer -q set %s 1%%+", beautiful.mic.channel))
+            beautiful.mic.update()
+        end,
+        { description = "mic up", group = "hotkeys" }
+    ),
+
+    awful.key({ "Control" }, "XF86AudioLowerVolume",
+        function ()
+            os.execute(string.format("amixer -q set %s 1%%-", beautiful.mic.channel))
+            beautiful.mic.update()
+        end,
+        { description = "mic down", group = "hotkeys" }
+    ),
+
+    awful.key({ }, "XF86AudioMicMute",
+        function ()
+            os.execute(string.format("amixer -q set %s toggle", beautiful.mic.togglechannel or beautiful.mic.channel))
+            beautiful.mic.update()
+        end,
+        { description = "toggle mic mute", group = "hotkeys" }
+    ),
+
+
+    awful.key({ }, "XF86Tools",
+        function ()
+            run_or_raise("pavucontrol", "pavucontrol")
+        end,
+        { description = "configure audio", group = "hotkeys" }
     ),
 
     awful.key({ }, "XF86ScreenSaver",

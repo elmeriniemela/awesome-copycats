@@ -10,6 +10,7 @@ local lain  = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
 local dpi   = require("beautiful.xresources").apply_dpi
+local vicious = require("vicious")
 
 local string, os = string, os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
@@ -153,6 +154,35 @@ theme.volume.bar.margins = dpi(5)
 local volumewidget = wibox.container.background(theme.volume.bar, theme.bg_focus, gears.shape.rectangle)
 volumewidget = wibox.container.margin(volumewidget, dpi(0), dpi(0), dpi(5), dpi(5))
 
+
+-- ALSA mic bar
+theme.mic = lain.widget.alsabar({
+    notification_preset = { font = "Monospace 9"},
+    --togglechannel = "IEC958,3",
+    width = dpi(80), height = dpi(10), border_width = dpi(0),
+    channel = "Capture",
+    colors = {
+        background = "#383838",
+        unmute     = "#80CCE6",
+        mute       = "#FF9F9F"
+    },
+})
+
+
+theme.mic.bar.paddings = dpi(0)
+theme.mic.bar.margins = dpi(5)
+local micwidget = wibox.container.background(theme.mic.bar, theme.bg_focus, gears.shape.rectangle)
+micwidget = wibox.container.margin(micwidget, dpi(0), dpi(0), dpi(5), dpi(5))
+
+updatetextbox = wibox.widget.textbox()
+vicious.register(updatetextbox, vicious.widgets.pkg, markup.font(theme.font, "Updates: $1"), 60, "Arch")
+local updatebg = wibox.container.background(updatetextbox, theme.bg_focus, gears.shape.rectangle)
+local updatewidget = wibox.container.margin(updatebg, dpi(0), dpi(0), dpi(5), dpi(5))
+
+
+micwidget:buttons(awful.button({}, 1, function () awful.util.spawn_with_shell("pavucontrol -t 4") end))
+volumewidget:buttons(awful.button({}, 1, function () awful.util.spawn_with_shell("pavucontrol -t 3") end))
+
 -- CPU
 local cpu_icon = wibox.widget.imagebox(theme.cpu)
 local cpu = lain.widget.cpu({
@@ -263,6 +293,7 @@ function theme.at_screen_connect(s)
             bottom_bar,
             cpu_icon,
             cpuwidget,
+            updatewidget,
             bat.widget,
         },
     }
@@ -283,6 +314,7 @@ function theme.at_screen_connect(s)
             layout = wibox.layout.fixed.horizontal,
             bottom_bar,
             volumewidget,
+            micwidget,
             calendar_icon,
             calendarwidget,
             bottom_bar,
