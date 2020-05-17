@@ -19,6 +19,8 @@ local lain          = require("lain")
 --local menubar       = require("menubar")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
+local vicious       = require("vicious")
+local theme         = require("theme")
 
 
 require("exit.exit-screen")
@@ -97,20 +99,7 @@ awful.spawn.with_shell(
 
 -- Variable definitions
 
-local themes = {
-    "blackburn",       -- 1
-    "copland",         -- 2
-    "dremora",         -- 3
-    "holo",            -- 4
-    "multicolor",      -- 5
-    "powerarrow",      -- 6
-    "powerarrow-dark", -- 7
-    "rainbow",         -- 8
-    "steamburn",       -- 9
-    "vertex",          -- 10
-}
 
-local chosen_theme = themes[4]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
 local terminal     = "konsole"
@@ -211,7 +200,7 @@ lain.layout.cascade.tile.nmaster       = 5
 lain.layout.cascade.tile.ncol          = 2
 
 
-beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
+beautiful.init(theme)
 
 
 -- Menu

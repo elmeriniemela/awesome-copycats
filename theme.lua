@@ -1,9 +1,4 @@
---[[
 
-     Holo Awesome WM theme 3.0
-     github.com/lcpz
-
---]]
 
 local gears = require("gears")
 local lain  = require("lain")
@@ -17,7 +12,7 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
-theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/themes/holo/icons"
+theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/icons"
 theme.wallpaper                                 = os.getenv("HOME") .. "/.config/awesome/wallpapers/autum_trees.jpg"
 theme.font                                      = "Roboto Bold 10"
 theme.taglist_font                              = "Roboto Condensed Regular 8"
