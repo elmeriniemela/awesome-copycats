@@ -321,6 +321,7 @@ function theme.at_screen_connect(s)
             bottom_bar,
             upgrade_icon,
             updatewidget,
+            bottom_bar,
             bat_icon,
             batwidget,
         },
