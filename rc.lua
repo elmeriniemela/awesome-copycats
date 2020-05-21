@@ -912,7 +912,11 @@ awful.rules.rules = {
             screen = awful.screen.preferred,
             placement = awful.placement.no_overlap+awful.placement.no_offscreen,
             size_hints_honor = false,
-            tag = "WORK" -- Default workspace for new windows
+            maximized = false,
+            maximized_horizontal = false,
+            maximized_vertical = false,
+            floating = false,
+            -- tag = "WORK" -- Default workspace for new windows
         }
     },
 
