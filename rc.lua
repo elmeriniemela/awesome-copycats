@@ -63,6 +63,9 @@ end
 
 local function run_or_raise(cmd, class)
     local matcher = function (c)
+        if not c.class then
+            return false
+        end
         local client_class = c.class:lower()
         if client_class:find(class) then
             return true
@@ -102,7 +105,7 @@ awful.spawn.with_shell(
 
 local modkey       = "Mod4"
 local altkey       = "Mod1"
-local terminal     = "konsole"
+local terminal     = "terminator"
 local vi_focus     = false -- vi-like client focus - https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true -- cycle trough all previous client or just the first -- https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "vim"
@@ -919,6 +922,44 @@ awful.rules.rules = {
             -- tag = "WORK" -- Default workspace for new windows
         }
     },
+    -- Floating clients.
+    {
+        rule_any = {
+            instance = {
+                "DTA",  -- Firefox addon DownThemAll.
+                "copyq",  -- Includes session name in class.
+            },
+            class = {
+                "Arandr",
+                "Gpick",
+                "Kruler",
+                "MessageWin",  -- kalarm.
+                "MPlayer",
+                "Sxiv",
+                "Wpa_gui",
+                "pinentry",
+                "veromix",
+                "xtightvncviewer"},
+
+            name = {
+                "Event Tester",  -- xev.
+            },
+            role = {
+                "AlarmWindow",  -- Thunderbird's calendar.
+                "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+            },
+            type = {
+                "popup_menu",
+                "notification",
+                "dnd",
+                "dialog",       -- "Pop up" dialog
+            }
+        },
+
+        properties = {
+            floating = true,
+        }
+    },
 
     -- Titlebars
     { rule_any = { type = { "dialog", "normal" } },
@@ -940,7 +981,7 @@ awful.rules.rules = {
     { rule = { class = "firefox" },
       properties = { tag = "WORK" } },
 
-    { rule = { class = "konsole" },
+    { rule = { class = "terminator" },
       properties = { tag = "WORK" } },
 
 
