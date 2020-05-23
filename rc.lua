@@ -962,27 +962,39 @@ awful.rules.rules = {
     },
 
     -- Titlebars
-    { rule_any = { type = { "dialog", "normal" } },
-      properties = { titlebars_enabled = true } },
+    {
+        rule_any = { type = { "dialog", "normal" } },
+        properties = { titlebars_enabled = true }
+    },
 
     -- -- find class with 'xprop WM_CLASS'
-    { rule = { class = "Thunderbird" },
-      properties = { tag = "CHAT" } },
+    {
+        rule_any = {
+            class = {
+                "Slack",
+                "Thunderbird",
+                "whatsapp-nativefier-d52542",
+            },
+        },
+        properties = {
+            tag = "CHAT"
+        },
+    },
 
-    { rule = { class = "Slack" },
-      properties = { tag = "CHAT" } },
 
-    { rule = { class = "whatsapp-nativefier-d52542" },
-      properties = { tag = "CHAT" } },
+    {
+        rule_any = {
+            class = {
+                "firefox",
+                "Terminator",
+                "code-oss",
+            },
+        },
+        properties = {
+            tag = "WORK"
+        },
+    },
 
-    { rule = { class = "code-oss" },
-      properties = { tag = "WORK" } },
-
-    { rule = { class = "firefox" },
-      properties = { tag = "WORK" } },
-
-    { rule = { class = "terminator" },
-      properties = { tag = "WORK" } },
 
 
 }
