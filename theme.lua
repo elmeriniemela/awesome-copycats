@@ -197,7 +197,7 @@ vicious.register(
         update_tooltip:set_text(lines)
         return markup.font(theme.font, string.format("  %s  ", args[1]))
     end,
-    60,
+    120,
     "Arch"
 )
 
