@@ -39,14 +39,14 @@ end
 
 function suspend_command()
   exit_screen_hide()
-  awful.spawn.with_shell('light-locker-command -l & systemctl suspend')
+  awful.spawn.with_shell('xscreensaver-command -lock & systemctl suspend')
 end
 function exit_command()
   _G.awesome.quit()
 end
 function lock_command()
   exit_screen_hide()
-  awful.spawn.with_shell('sleep 1 && light-locker-command -l')
+  awful.spawn.with_shell('xscreensaver-command -lock')
 end
 function poweroff_command()
   awful.spawn.with_shell('poweroff')
@@ -108,6 +108,7 @@ exit_screen =
     y = screen_geometry.y,
     visible = false,
     ontop = true,
+    opacity = 0.65,
     type = 'splash',
     height = screen_geometry.height,
     width = screen_geometry.width

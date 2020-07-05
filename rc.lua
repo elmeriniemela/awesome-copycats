@@ -83,6 +83,8 @@ end
 
 run_once({
     "nm-applet &",
+    "xscreensaver -no-splash &",
+    "picom &",
 })
 
 -- run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
@@ -251,7 +253,7 @@ globalkeys = my_table.join(
     -- X screen locker
     awful.key({ altkey, "Control" }, "l",
         function ()
-            os.execute("light-locker-command -l")
+            os.execute("xscreensaver-command -lock")
         end,
         { description = "lock screen", group = "hotkeys" }
     ),
