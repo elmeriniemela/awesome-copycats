@@ -17,7 +17,6 @@ local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
 --local menubar       = require("menubar")
-local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 local vicious       = require("vicious")
 local theme         = require("theme")
@@ -206,29 +205,6 @@ lain.layout.cascade.tile.ncol          = 2
 beautiful.init(theme)
 
 
--- Menu
-local myawesomemenu = {
-    { "hotkeys", function() return false, hotkeys_popup.show_help end },
-    { "manual", terminal .. " -e man awesome" },
-    { "edit config", string.format("%s -e %s %s", terminal, editor, awesome.conffile) },
-    { "restart", awesome.restart },
-    { "quit", function() awesome.quit() end }
-}
-awful.util.mymainmenu = freedesktop.menu.build({
-    icon_size = beautiful.menu_height or dpi(16),
-    before = {
-        { "Awesome", myawesomemenu, beautiful.awesome_icon },
-        -- other triads can be put here
-    },
-    after = {
-        { "Open terminal", terminal },
-        -- other triads can be put here
-    }
-})
--- hide menu when mouse leaves it
--- awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)
-
---menubar.utils.terminal = terminal -- Set the Menubar terminal for applications that require it
 
 
 -- Screen
@@ -264,7 +240,6 @@ awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) 
 
 -- Mouse bindings
 -- root.buttons(my_table.join(
---     awful.button({ }, 3, function () awful.util.mymainmenu:toggle() end),
 --     awful.button({ }, 4, awful.tag.viewnext),
 --     awful.button({ }, 5, awful.tag.viewprev)
 -- ))
@@ -520,7 +495,7 @@ globalkeys = my_table.join(
 
     awful.key({ modkey, }, "space",
         function ()
-            awful.layout.inc(1)
+            os.execute("rofi -show drun -show-icons")
         end,
         { description = "select next", group = "layout" }
     ),
@@ -737,7 +712,7 @@ globalkeys = my_table.join(
     -- Prompt
     awful.key({ modkey }, "r",
         function ()
-            awful.screen.focused().mypromptbox:run()
+            os.execute("rofi -show run")
         end,
         { description = "run prompt", group = "launcher" }
     ),
