@@ -52,6 +52,7 @@ theme.clock                                     = theme.icon_dir .. "/clock.png"
 theme.calendar                                  = theme.icon_dir .. "/cal.png"
 theme.cpu                                       = theme.icon_dir .. "/cpu.png"
 theme.upgrade                                   = theme.icon_dir .. "/upgrade.png"
+theme.uptime_png                                = theme.icon_dir .. "/uptime.png"
 theme.plugged                                   = theme.icon_dir .. "/plugged.png"
 theme.battery                                   = theme.icon_dir .. "/battery.png"
 theme.net_up                                    = theme.icon_dir .. "/net_up.png"
@@ -201,6 +202,13 @@ vicious.register(
     "Arch"
 )
 
+local uptime_icon = wibox.widget.imagebox(theme.uptime_png)
+uptimetextbox = wibox.widget.textbox()
+vicious.register(uptimetextbox, vicious.widgets.uptime, markup.font(theme.font, " $1 days | $2 hours | $3 mins "), 61)
+local uptimebg = wibox.container.background(uptimetextbox, theme.bg_focus, gears.shape.rectangle)
+local uptimewidget = wibox.container.margin(uptimebg, dpi(0), dpi(0), dpi(5), dpi(5))
+
+
 local updatebg = wibox.container.background(updatetextbox, theme.bg_focus, gears.shape.rectangle)
 local updatewidget = wibox.container.margin(updatebg, dpi(0), dpi(0), dpi(5), dpi(5))
 
@@ -321,6 +329,9 @@ function theme.at_screen_connect(s)
             bottom_bar,
             upgrade_icon,
             updatewidget,
+            bottom_bar,
+            uptime_icon,
+            uptimewidget,
             bottom_bar,
             bat_icon,
             batwidget,
