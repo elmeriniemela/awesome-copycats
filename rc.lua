@@ -83,7 +83,6 @@ end
 
 run_once({
     "nm-applet",
-    "xscreensaver -no-splash",
     "picom",
 })
 
@@ -253,7 +252,7 @@ globalkeys = my_table.join(
     -- X screen locker
     awful.key({ altkey, "Control" }, "l",
         function ()
-            os.execute("xscreensaver-command -lock")
+            os.execute("slock")
         end,
         { description = "lock screen", group = "hotkeys" }
     ),
@@ -521,14 +520,6 @@ globalkeys = my_table.join(
         { description = "restore minimized", group = "client" }
     ),
 
-    -- Dropdown application
-    awful.key({ modkey, }, "z",
-        function ()
-            awful.screen.focused().quake:toggle()
-        end,
-        { description = "dropdown application", group = "launcher" }
-    ),
-
     -- Widgets popups
     awful.key({ altkey, }, "c",
         function ()
@@ -717,20 +708,8 @@ globalkeys = my_table.join(
             os.execute("rofi -show run")
         end,
         { description = "run prompt", group = "launcher" }
-    ),
-
-    awful.key({ modkey }, "x",
-        function ()
-            awful.prompt.run{
-                prompt       = "Run Lua code: ",
-                textbox      = awful.screen.focused().mypromptbox.widget,
-                exe_callback = awful.util.eval,
-                history_path = awful.util.get_cache_dir() .. "/history_eval"
-            }
-        end,
-        { description = "lua execute prompt", group = "awesome" }
     )
-    --]]
+
 )
 
 clientkeys = my_table.join(

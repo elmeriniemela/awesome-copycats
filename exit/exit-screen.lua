@@ -39,14 +39,14 @@ end
 
 function suspend_command()
   exit_screen_hide()
-  awful.spawn.with_shell('xscreensaver-command -lock & systemctl suspend')
+  awful.spawn.with_shell('slock & systemctl suspend')
 end
 function exit_command()
   _G.awesome.quit()
 end
 function lock_command()
   exit_screen_hide()
-  awful.spawn.with_shell('xscreensaver-command -lock')
+  awful.spawn.with_shell('slock')
 end
 function poweroff_command()
   awful.spawn.with_shell('poweroff')
