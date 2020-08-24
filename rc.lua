@@ -84,6 +84,7 @@ end
 run_once({
     "nm-applet",
     "picom",
+    "lxqt-policykit-agent",
 })
 
 -- run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
@@ -412,18 +413,6 @@ globalkeys = my_table.join(
         { description = "go forth", group = "client" }
     ),
 
-    -- Show/Hide Wibox
-    awful.key({ modkey }, "b",
-        function ()
-            for s in screen do
-                s.mywibox.visible = not s.mywibox.visible
-                if s.mybottomwibox then
-                    s.mybottomwibox.visible = not s.mybottomwibox.visible
-                end
-            end
-        end,
-        { description = "toggle wibox", group = "awesome" }
-    ),
 
     -- On the fly useless gaps change
     awful.key({ altkey, "Control" }, "+",
@@ -572,7 +561,7 @@ globalkeys = my_table.join(
     -- ALSA volume control
     awful.key({ }, "XF86AudioRaiseVolume",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
+            os.execute(string.format("amixer -q set %s 5%%+", beautiful.volume.channel))
             beautiful.volume.update()
         end,
         { description = "volume up", group = "hotkeys" }
@@ -580,7 +569,7 @@ globalkeys = my_table.join(
 
     awful.key({ }, "XF86AudioLowerVolume",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
+            os.execute(string.format("amixer -q set %s 5%%-", beautiful.volume.channel))
             beautiful.volume.update()
         end,
         { description = "volume down", group = "hotkeys" }
@@ -596,7 +585,7 @@ globalkeys = my_table.join(
 
     awful.key({ "Control" }, "XF86AudioRaiseVolume",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%+", beautiful.mic.channel))
+            os.execute(string.format("amixer -q set %s 5%%+", beautiful.mic.channel))
             beautiful.mic.update()
         end,
         { description = "mic up", group = "hotkeys" }
@@ -604,7 +593,7 @@ globalkeys = my_table.join(
 
     awful.key({ "Control" }, "XF86AudioLowerVolume",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%-", beautiful.mic.channel))
+            os.execute(string.format("amixer -q set %s 5%%-", beautiful.mic.channel))
             beautiful.mic.update()
         end,
         { description = "mic down", group = "hotkeys" }
