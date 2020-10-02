@@ -485,7 +485,7 @@ globalkeys = my_table.join(
 
     awful.key({ modkey, }, "space",
         function ()
-            os.execute("rofi -show drun -show-icons")
+            os.execute("rofi -show drun")
         end,
         { description = "select next", group = "layout" }
     ),
@@ -684,6 +684,13 @@ globalkeys = my_table.join(
         { description = "open slack", group = "launcher" }
     ),
 
+    awful.key({ modkey, }, "z",
+        function ()
+            run_or_raise("zoom", "zoom")
+        end,
+        { description = "open zoom", group = "launcher" }
+    ),
+
     awful.key({ modkey, }, "c",
         function ()
             run_or_raise("code", "code")
@@ -716,7 +723,7 @@ clientkeys = my_table.join(
         { description = "toggle fullscreen", group = "client" }
     ),
 
-    awful.key({ modkey, }, "d",
+    awful.key({ modkey, "Shift" }, "d",
         function (c)
             c:kill()
         end,

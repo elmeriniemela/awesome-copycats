@@ -247,7 +247,7 @@ theme.weather = lain.widget.weather({
 
 -- Launcher
 local mylauncher = awful.widget.button({ image = theme.awesome_icon_launcher })
-mylauncher:connect_signal("button::press", function() os.execute("rofi -show drun -show-icons") end)
+mylauncher:connect_signal("button::press", function() os.execute("rofi -show drun") end)
 
 -- Separators
 local first = wibox.widget.textbox('<span font="Roboto 7"> </span>')
