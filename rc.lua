@@ -646,7 +646,14 @@ globalkeys = my_table.join(
         function ()
             run_or_raise(terminal, terminal)
         end,
-        { description = "open a terminal", group = "launcher" }
+        { description = "open existing or new terminal", group = "launcher" }
+    ),
+
+    awful.key({ modkey, "Shift" }, "Return",
+        function ()
+            awful.spawn(terminal)
+        end,
+        { description = "open new terminal", group = "launcher" }
     ),
 
     awful.key({ modkey }, "q",
@@ -723,7 +730,7 @@ clientkeys = my_table.join(
         { description = "toggle fullscreen", group = "client" }
     ),
 
-    awful.key({ modkey, "Shift" }, "d",
+    awful.key({ altkey, }, "F4",
         function (c)
             c:kill()
         end,

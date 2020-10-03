@@ -116,6 +116,9 @@ local calbg = wibox.container.background(mytextcalendar, theme.bg_focus, gears.s
 local calendarwidget = wibox.container.margin(calbg, dpi(0), dpi(0), dpi(5), dpi(5))
 theme.cal = lain.widget.cal({
     attach_to = { mytextclock, mytextcalendar },
+    week_number = "left",
+    three = true,
+    followtag = true,
     notification_preset = {
         fg = "#FFFFFF",
         bg = theme.bg_normal,
@@ -278,7 +281,14 @@ function theme.at_screen_connect(s)
     gears.wallpaper.maximized(wallpaper, s, true)
 
     -- Tags
-    awful.tag(awful.util.tagnames, s, awful.layout.layouts[1])
+    if s.geometry.width < 2000 then
+        -- Use max layout as default for small screens
+        awful.tag(awful.util.tagnames, s, awful.layout.suit.max)
+    else
+        awful.tag(awful.util.tagnames, s, awful.layout.layouts[1])
+    end
+
+
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
