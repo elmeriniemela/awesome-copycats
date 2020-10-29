@@ -85,6 +85,8 @@ run_once({
     "nm-applet",
     "picom",
     "lxqt-policykit-agent",
+    "copyq",
+    "blueman-applet",
 })
 
 -- run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
@@ -116,11 +118,11 @@ local filemanager  = os.getenv("FILEMANAGER") or "pcmanfm"
 awful.util.terminal = terminal
 awful.util.tagnames = { "WORK", "CHAT", "OTHER", }
 awful.layout.layouts = {
+    lain.layout.cascade.tile,
     awful.layout.suit.tile,
+    awful.layout.suit.fair,
     awful.layout.suit.max,
     awful.layout.suit.floating,
-    lain.layout.cascade.tile,
-    awful.layout.suit.fair,
     -- awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
@@ -266,17 +268,17 @@ globalkeys = my_table.join(
     ),
 
     -- Tag browsing
-    awful.key({ modkey, }, "Left",
+    awful.key({ modkey }, "Left",
         awful.tag.viewprev,
         { description = "view previous", group = "tag" }
     ),
 
-    awful.key({ modkey, }, "Right",
+    awful.key({ modkey }, "Right",
         awful.tag.viewnext,
         { description = "view next", group = "tag" }
     ),
 
-    awful.key({ modkey, }, "Escape",
+    awful.key({ modkey }, "Escape",
         awful.tag.history.restore,
         { description = "go back", group = "tag" }
     ),
@@ -381,12 +383,12 @@ globalkeys = my_table.join(
         { description = "focus the previous screen", group = "screen" }
     ),
 
-    awful.key({ modkey, }, "u",
+    awful.key({ modkey }, "u",
         awful.client.urgent.jumpto,
         { description = "jump to urgent client", group = "client" }
     ),
 
-    awful.key({ modkey, }, "Tab",
+    awful.key({ modkey }, "Tab",
         function ()
             if cycle_prev then
                 awful.client.focus.history.previous()
@@ -482,7 +484,7 @@ globalkeys = my_table.join(
         { description = "decrease the number of columns", group = "layout" }
     ),
 
-    awful.key({ modkey, }, "space",
+    awful.key({ modkey }, "space",
         function ()
             os.execute("rofi -show drun")
         end,
@@ -641,7 +643,7 @@ globalkeys = my_table.join(
     ),
 
     -- User programs
-    awful.key({ modkey, }, "Return",
+    awful.key({ modkey }, "Return",
         function ()
             run_or_raise(terminal, terminal)
         end,
@@ -656,6 +658,14 @@ globalkeys = my_table.join(
     ),
 
     awful.key({ modkey }, "q",
+        function ()
+            run_or_raise(browser, browser)
+        end,
+        { description = "open browser", group = "launcher" }
+    ),
+
+    -- By default firefox binds this to exit which is inconvinent considering { modkey }, "q" should open firefox
+    awful.key({ "Control" }, "q",
         function ()
             run_or_raise(browser, browser)
         end,
@@ -683,21 +693,28 @@ globalkeys = my_table.join(
         { description = "open whatsapp", group = "launcher" }
     ),
 
-    awful.key({ modkey, }, "s",
+    awful.key({ modkey }, "s",
         function ()
             run_or_raise("slack", "slack")
         end,
         { description = "open slack", group = "launcher" }
     ),
 
-    awful.key({ modkey, }, "z",
+    awful.key({ modkey }, "z",
         function ()
             run_or_raise("zoom", "zoom")
         end,
         { description = "open zoom", group = "launcher" }
     ),
 
-    awful.key({ modkey, }, "c",
+    awful.key({ modkey }, "v",
+        function ()
+            awful.spawn("copyq show")
+        end,
+        { description = "open copyq", group = "launcher" }
+    ),
+
+    awful.key({ modkey }, "c",
         function ()
             run_or_raise("code", "code")
         end,
@@ -721,7 +738,7 @@ clientkeys = my_table.join(
         { description = "magnify client", group = "client" }
     ),
 
-    awful.key({ modkey, }, "f",
+    awful.key({ modkey }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
@@ -748,14 +765,14 @@ clientkeys = my_table.join(
         { description = "move to master", group = "client" }
     ),
 
-    awful.key({ modkey, }, "o",
+    awful.key({ modkey }, "o",
         function (c)
             c:move_to_screen()
         end,
         { description = "move to screen", group = "client" }
     ),
 
-    awful.key({ modkey, }, "n",
+    awful.key({ modkey }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
@@ -764,7 +781,7 @@ clientkeys = my_table.join(
         { description = "minimize", group = "client" }
     ),
 
-    awful.key({ modkey, }, "m",
+    awful.key({ modkey }, "m",
         function (c)
             c.maximized = not c.maximized
             c:raise()
@@ -897,7 +914,9 @@ awful.rules.rules = {
                 "Wpa_gui",
                 "pinentry",
                 "veromix",
-                "xtightvncviewer"},
+                "xtightvncviewer",
+                "zoom",
+            },
 
             name = {
                 "Event Tester",  -- xev.
@@ -1009,6 +1028,7 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         { -- Right
+            awful.titlebar.widget.floatingbutton (c),
             awful.titlebar.widget.minimizebutton (c),
             awful.titlebar.widget.closebutton    (c),
             layout = wibox.layout.fixed.horizontal()
