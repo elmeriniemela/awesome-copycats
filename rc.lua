@@ -873,7 +873,6 @@ clientbuttons = gears.table.join(
 )
 
 
-
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
     {
@@ -935,6 +934,7 @@ awful.rules.rules = {
 
         properties = {
             floating = true,
+            placement = awful.placement.under_mouse,
         }
     },
 
@@ -951,6 +951,7 @@ awful.rules.rules = {
                 "Slack",
                 "Thunderbird",
                 "whatsapp-nativefier-d52542",
+                "zoom",
             },
         },
         properties = {
