@@ -657,6 +657,13 @@ globalkeys = my_table.join(
         { description = "open new terminal", group = "launcher" }
     ),
 
+    awful.key({ modkey, }, "d",
+        function ()
+            awful.spawn("libreoffice Documents/DEADLINES.ods")
+        end,
+        { description = "open new terminal", group = "launcher" }
+    ),
+
     awful.key({ modkey }, "q",
         function ()
             run_or_raise(browser, browser)
@@ -688,7 +695,7 @@ globalkeys = my_table.join(
 
     awful.key({ modkey }, "w",
         function ()
-            run_or_raise("whatsapp-nativefier-dark", "whatsapp")
+            run_or_raise("whatsapp-nativefier", "whatsapp")
         end,
         { description = "open whatsapp", group = "launcher" }
     ),
@@ -934,7 +941,7 @@ awful.rules.rules = {
 
         properties = {
             floating = true,
-            placement = awful.placement.under_mouse,
+            placement = awful.placement.under_mouse + awful.placement.no_offscreen,
         }
     },
 
@@ -950,7 +957,7 @@ awful.rules.rules = {
             class = {
                 "Slack",
                 "Thunderbird",
-                "whatsapp-nativefier-d52542",
+                "whatsapp-nativefier-d40211",
                 "zoom",
             },
         },
