@@ -700,6 +700,13 @@ globalkeys = my_table.join(
         { description = "open whatsapp", group = "launcher" }
     ),
 
+    awful.key({ modkey }, "a",
+        function ()
+            run_or_raise("signal-desktop", "signal")
+        end,
+        { description = "open signal", group = "launcher" }
+    ),
+
     awful.key({ modkey }, "s",
         function ()
             run_or_raise("slack", "slack")
@@ -921,7 +928,9 @@ awful.rules.rules = {
                 "pinentry",
                 "veromix",
                 "xtightvncviewer",
+                ".*%.py$",
                 "zoom",
+                "Matplotlib",
             },
 
             name = {
@@ -959,6 +968,7 @@ awful.rules.rules = {
                 "Thunderbird",
                 "whatsapp-nativefier-d40211",
                 "zoom",
+                "signal",
             },
         },
         properties = {
