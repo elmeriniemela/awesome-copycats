@@ -119,9 +119,9 @@ awful.util.terminal = terminal
 awful.util.tagnames = { "WORK", "CHAT", "OTHER", }
 awful.layout.layouts = {
     lain.layout.cascade.tile,
+    awful.layout.suit.max,
     awful.layout.suit.tile,
     awful.layout.suit.fair,
-    awful.layout.suit.max,
     awful.layout.suit.floating,
     -- awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.tile.left,
@@ -968,7 +968,7 @@ awful.rules.rules = {
                 "Thunderbird",
                 "whatsapp-nativefier-d40211",
                 "zoom",
-                "signal",
+                "Signal",
             },
         },
         properties = {
