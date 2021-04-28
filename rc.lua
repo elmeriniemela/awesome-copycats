@@ -61,12 +61,28 @@ end
 -- Autostart windowless processes
 
 local function run_or_raise(cmd, class)
+    name = class:lower()
     local matcher = function (c)
         if not c.class then
             return false
         end
         local client_class = c.class:lower()
         if client_class:find(class) then
+            return true
+        end
+        return false
+    end
+    awful.client.run_or_raise(cmd, matcher)
+end
+
+local function run_or_raise_name(cmd, name)
+    name = name:lower()
+    local matcher = function (c)
+        if not c.name then
+            return false
+        end
+        local client_class = c.name:lower()
+        if client_class:find(name) then
             return true
         end
         return false
@@ -85,7 +101,7 @@ run_once({
     "nm-applet",
     "picom",
     "lxqt-policykit-agent",
-    "copyq",
+    "clipmenud",
     "blueman-applet",
 })
 
@@ -659,7 +675,7 @@ globalkeys = my_table.join(
 
     awful.key({ modkey, }, "d",
         function ()
-            awful.spawn("libreoffice Documents/DEADLINES.ods")
+            run_or_raise_name("libreoffice Documents/DEADLINES.ods", "DEADLINES.ods")
         end,
         { description = "open new terminal", group = "launcher" }
     ),
@@ -672,12 +688,12 @@ globalkeys = my_table.join(
     ),
 
     -- By default firefox binds this to exit which is inconvinent considering { modkey }, "q" should open firefox
-    awful.key({ "Control" }, "q",
-        function ()
-            run_or_raise(browser, browser)
-        end,
-        { description = "open browser", group = "launcher" }
-    ),
+    -- awful.key({ "Control" }, "q",
+    --     function ()
+    --         run_or_raise(browser, browser)
+    --     end,
+    --     { description = "open browser", group = "launcher" }
+    -- ),
 
     awful.key({ modkey }, "e",
         function ()
@@ -723,9 +739,9 @@ globalkeys = my_table.join(
 
     awful.key({ modkey }, "v",
         function ()
-            awful.spawn("copyq show")
+            awful.spawn.with_shell("clipmenu && xdotool key Shift+Insert")
         end,
-        { description = "open copyq", group = "launcher" }
+        { description = "open clipmenu", group = "launcher" }
     ),
 
     awful.key({ modkey }, "c",
@@ -915,7 +931,6 @@ awful.rules.rules = {
         rule_any = {
             instance = {
                 "DTA",  -- Firefox addon DownThemAll.
-                "copyq",  -- Includes session name in class.
             },
             class = {
                 "Arandr",
@@ -969,6 +984,9 @@ awful.rules.rules = {
                 "whatsapp-nativefier-d40211",
                 "zoom",
                 "Signal",
+                "Zulip",
+                "TelegramDesktop",
+                "discord",
             },
         },
         properties = {
