@@ -102,7 +102,7 @@ run_once({
     "picom",
     "lxqt-policykit-agent",
     "clipmenud",
-    "blueman-applet",
+    -- "blueman-applet", -- not really used atmgit s
 })
 
 -- run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
@@ -118,6 +118,15 @@ awful.spawn.with_shell(
 --]]
 
 
+-- {{{ Naughty
+-- Disable spotify notifications:
+-- naughty.config.presets.spotify = {callback = function() return false end}
+-- table.insert(naughty.config.mapping, {{appname = "Spotify"}, naughty.config.presets.spotify})
+
+--  Make notifications smaller:
+naughty.config.defaults.icon_size = 64
+
+-- }}}
 
 -- Variable definitions
 
