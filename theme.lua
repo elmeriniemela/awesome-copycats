@@ -276,9 +276,13 @@ local barcolor  = gears.color({
     stops = { {0, theme.bg_focus}, {0.25, "#505050"}, {1, theme.bg_focus} }
 })
 
+local right_panel = require('layout.right-panel')
+
 function theme.at_screen_connect(s)
     -- Quake application
     s.quake = lain.util.quake({ app = awful.util.terminal })
+    s.right_panel_show_again = false
+    s.right_panel = right_panel(s)
 
     -- If wallpaper is a function, call it with the screen
     local wallpaper = theme.wallpaper
@@ -352,6 +356,7 @@ function theme.at_screen_connect(s)
             bottom_bar,
             bat_icon,
             batwidget,
+            require('widget.info-center-toggle')(),
         },
     }
 

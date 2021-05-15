@@ -57,7 +57,6 @@ do
     end)
 end
 
-
 -- Autostart windowless processes
 
 local function run_or_raise(cmd, class)

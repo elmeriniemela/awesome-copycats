@@ -1,4 +1,4 @@
-local dir = os.getenv('HOME') .. '/.config/awesome/exit/icons'
+local dir = os.getenv('HOME') .. '/.config/awesome/widget/exit/icons'
 
 return {
   logout = dir .. '/logout.svg',
