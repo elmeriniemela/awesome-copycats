@@ -20,9 +20,9 @@ local lain          = require("lain")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 local vicious       = require("vicious")
 local theme         = require("theme")
+local exit_screen   = require("widget.exit.exit-screen")
 
 
-require("exit.exit-screen")
 
 
 -- Enable hotkeys help widget for VIM and other apps
@@ -572,14 +572,14 @@ globalkeys = my_table.join(
 
     awful.key({ }, "XF86PowerOff",
         function()
-            _G.exit_screen_show()
+            exit_screen.show()
         end,
         { description = "show exitscreen", group = "hotkeys" }
     ),
 
     awful.key({ }, "XF86PowerDown",
         function()
-            _G.exit_screen_show()
+            exit_screen.show()
         end,
         { description = "show exitscreen", group = "hotkeys" }
     ),
@@ -758,6 +758,13 @@ globalkeys = my_table.join(
             run_or_raise("code", "code")
         end,
         { description = "open code", group = "launcher" }
+    ),
+
+    awful.key({ modkey }, "g",
+        function ()
+            run_or_raise("galculator", "galculator")
+        end,
+        { description = "open galculator", group = "launcher" }
     ),
 
     -- Prompt
@@ -955,6 +962,7 @@ awful.rules.rules = {
                 ".*%.py$",
                 "zoom",
                 "Matplotlib",
+                "Galculator",
             },
 
             name = {
