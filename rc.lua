@@ -25,6 +25,7 @@ local exit_screen   = require("widget.exit.exit-screen")
 
 
 
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 -- require("awful.hotkeys_popup.keys")
@@ -42,6 +43,13 @@ if awesome.startup_errors then
                      title = "Oops, there were errors during startup!",
                      text = awesome.startup_errors })
 end
+
+-- if not awesome.composite_manager_running then
+--     naughty.notify({ preset = naughty.config.presets.critical,
+--                      title = "Composite manager missing.",
+--                      text = "Composite manager missing." })
+
+-- end
 
 -- Handle runtime errors after startup
 do
@@ -90,11 +98,40 @@ local function run_or_raise_name(cmd, name)
 end
 
 -- This function will run once every time Awesome is started
+-- local function run_once(cmd_arr)
+--     for _, cmd in ipairs(cmd_arr) do
+--         awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s &)", cmd, cmd))
+--     end
+-- end
+
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
-        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s &)", cmd, cmd))
+        local findme = cmd
+        local firstspace = cmd:find(' ')
+        if firstspace then
+            findme = cmd:sub(0, firstspace - 1)
+        end
+        awful.spawn.easy_async_with_shell(
+            string.format('pgrep -u $USER -x %s > /dev/null || (%s)', findme, cmd),
+            function(stdout, stderr)
+                -- Debugger
+                if not stderr or stderr == '' or not debug_mode then
+                    return
+                end
+                naughty.notification({
+                    app_name = 'Start-up Applications',
+                    title = '<b>Oops! Error detected when starting an application!</b>',
+                    message = stderr:gsub('%\n', ''),
+                    timeout = 20,
+                    icon = beautiful.awesome_icon
+                })
+            end
+        )
     end
 end
+
+require('module.notifications')
+
 
 run_once({
     "nm-applet",
@@ -119,11 +156,8 @@ awful.spawn.with_shell(
 
 -- {{{ Naughty
 -- Disable spotify notifications:
--- naughty.config.presets.spotify = {callback = function() return false end}
--- table.insert(naughty.config.mapping, {{appname = "Spotify"}, naughty.config.presets.spotify})
-
 --  Make notifications smaller:
-naughty.config.defaults.icon_size = 64
+-- naughty.config.defaults.icon_size = 64
 
 -- }}}
 

@@ -16,6 +16,7 @@ theme.lain_icons                                = os.getenv("HOME") .. "/.config
 theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/icons"
 theme.wallpaper                                 = os.getenv("HOME") .. "/.config/awesome/wallpapers/ocean-bridge.jpg"
 theme.font                                      = "Roboto Bold 10"
+theme.font_bold                                 = "Roboto Bold 10"
 theme.taglist_font                              = "Roboto Condensed Regular 8"
 theme.fg_normal                                 = "#FFFFFF"
 theme.fg_focus                                  = "#0099CC"
@@ -104,6 +105,7 @@ theme.hotkeys_font                              = "Roboto Bold 18"
 theme.hotkeys_description_font                  = "Roboto Bold 14"
 theme.hotkeys_border_width                      = dpi(1)
 theme.hotkeys_modifiers_fg                      = "#0099CC"
+theme.transparent                               = "#00000000"
 
 local markup = lain.util.markup
 local blue   = "#80CCE6"

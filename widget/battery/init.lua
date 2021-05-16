@@ -97,7 +97,7 @@ local return_button = function()
 
 	battery_widget:connect_signal(
 		'mouse::enter',
-		function() 
+		function()
 			get_battery_info()
 		end
 	)
@@ -128,7 +128,7 @@ local return_button = function()
 				if not battery_percentage then
 					return
 				end
-				
+
 				battery_widget.spacing = dpi(5)
 				battery_percentage_text.visible = true
 				battery_percentage_text:set_text(battery_percentage .. '%')
@@ -191,7 +191,7 @@ local return_button = function()
 		5,
 		function(widget, stdout)
 			local status = stdout:gsub('%\n', '')
-			
+
 			-- If no output or no battery detected
 			if status == nil or status == '' then
 				battery_widget.spacing = dpi(0)
